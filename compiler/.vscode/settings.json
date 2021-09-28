@@ -1,0 +1,10 @@
+{
+  "files.associations": {
+    "iostream": "cpp",
+    "string_view": "cpp",
+    "regex": "cpp",
+    "deque": "cpp",
+    "string": "cpp",
+    "vector": "cpp"
+  }
+}
