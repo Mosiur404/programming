@@ -1,0 +1,43 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Node JS",
+      "command": "node",
+      "type": "shell",
+      "args": ["${file}", "<", "input.txt", ">", "output.txt"],
+      "problemMatcher": [],
+      "group": {
+        "kind": "build"
+        // "isDefault": true
+      }
+    },
+    {
+      "label": "C++ build and run",
+      "command": "g++",
+      "type": "shell",
+      // "args": ["${file}", "&&", "\"${fileDirname}\\a.exe\""],
+      "args": [
+        "-g",
+        "\"${file}\"",
+        "-o",
+        "\"${fileDirname}\\a.exe\"",
+        "&&",
+        "\"${fileDirname}\\a.exe\""
+      ],
+      "problemMatcher": ["$msCompile", "$gcc"],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "echo": false,
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": true
+      }
+    }
+  ]
+}
