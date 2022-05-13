@@ -72,7 +72,7 @@ int main()
     string input;
     // getline(cin, input, ';');
     // input = "During On campus classes /*everybody\nshould be present the classes.*/\nThe class schedule of CSE17 is Saturday // at\n9 am for online classes students have to join the classes via auto generated link";
-    input = "Hello  /*multi1 hello multi2*/ var2";
+    input = "Hello  /*multi1 hello multi2*/ var2 //comment single";
     string currentlyReading = "";
 
     vector<string> comments;
@@ -132,23 +132,32 @@ int main()
             currentlyReading += input[i];
     }
 
-    // //check last
-    if (is_comments_single_line(currentlyReading))
+    //if last is comments
+    if (commentMode == true)
     {
         comments.push_back(currentlyReading);
     }
-    else if (is_comments_multi_line(currentlyReading))
-        comments.push_back(currentlyReading);
-    else if (is_keyword(currentlyReading))
-        keywords.push_back(currentlyReading);
+    else
+    {
 
-    else if (is_identifier(currentlyReading))
-        identifiers.push_back(currentlyReading);
-    else if (is_keyword(currentlyReading))
-        keywords.push_back(currentlyReading);
+        // //check last
+        if (is_comments_single_line(currentlyReading))
+        {
+            comments.push_back(currentlyReading);
+        }
+        else if (is_comments_multi_line(currentlyReading))
+            comments.push_back(currentlyReading);
+        else if (is_keyword(currentlyReading))
+            keywords.push_back(currentlyReading);
 
-    else if (is_identifier(currentlyReading))
-        identifiers.push_back(currentlyReading);
+        else if (is_identifier(currentlyReading))
+            identifiers.push_back(currentlyReading);
+        else if (is_keyword(currentlyReading))
+            keywords.push_back(currentlyReading);
+
+        else if (is_identifier(currentlyReading))
+            identifiers.push_back(currentlyReading);
+    }
 
     // output print
     cout

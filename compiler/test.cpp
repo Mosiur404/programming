@@ -1,44 +1,65 @@
-#include <iostream>
+#include<bits/stdc++.h>
 using namespace std;
-
-bool checkValidity(string token)
-{
-    bool isValid = true;
-    for (int j = 0; j < token.length(); j++)
-    {
-        //if first index is valid
-        if (j == 0 && !((token[j] >= 'a' && token[j] <= 'z') || (token[j] >= 'A' && token[j] <= 'Z') || token[j] == '_'))
-        {
-            isValid = false;
-            break;
-        }
-        //check if the rest is valid
-        if (!((token[j] >= 'a' && token[j] <= 'z') || (token[j] >= 'A' && token[j] <= 'Z') || (token[j] >= '0' && token[j] <= '9') || token[j] == '_'))
-        {
-            isValid = false;
-            break;
-        }
-    }
-    return isValid;
-}
-
+typedef long long int ll;
+#define pb push_back
 int main()
 {
-    string str, temp = "", result = "";
-    getline(cin, str, '.');
-
-    for (int i = 0; i < str.length(); i++)
-    {
-        if (str[i] == ' ')
-        {
-            if (checkValidity(temp))
-                result += temp + "\n";
-            temp = "";
-        }
-        else
-        {
-            temp += str[i];
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    ll i,token = 0;
+    string s;
+    getline(cin,s,'\n');
+    bool ok = true,ok1 = false,ok2 = false;
+    for(i=0;i<s.size();i++){
+        if(s[i]=='a'){
+            if(i<s.size()-2){
+                if(s[i+1]=='b' && s[i+2]=='b'){
+                    ok2 = true;
+                }
+            }
+            if(token==1){
+                ok = false;
+                ok1 = false;
+                break;
+            }
+            continue;
+        }else{
+            if(token==1){
+                if(s[i]!='b'){
+                    ok = false;
+                    ok1 = false;  //a*b+  aaaaaa
+                    break;
+                }
+                continue;
+            }else{
+                if(s[i]=='b'){
+                    ok = false;
+                    ok1 = true;
+                    token = 1;
+                }else{
+                    ok1 = false;
+                    ok = false;
+                    break;
+                }
+            }
         }
     }
-    cout << result;
+    if(ok){
+        cout<<s<<" is recognized by 'a*'";
+        if(ok2){
+            cout<<",'abb'";
+        }
+    }else if(ok1){
+        cout<<s<<" is recognized by 'a*b+'";
+        if(ok2){
+            cout<<",'abb'";
+        }
+    }else if(ok2){
+        cout<<s<<" is recognized by 'abb'";
+    }else{
+        cout<<"NOT RECOGNIZED";
+    }
+    cout<<endl;
+
+    return 0;// @Imtiaz_rafi
 }

@@ -8,7 +8,7 @@ using namespace std;
 
 bool is_special_chars(string input)
 {
-    regex pattern = regex("~|!|#|$|%|^|&|*|(|)|_|+|||\\|`|-|=|{|}|[|]|:|\"|;|<|>|?|,|.|/");
+    regex pattern = regex("~|!|#|\\$|%|\\*|\\(|\\)|_|\\+|\\||`|-|=|\\{|\\}|\\[|\\]|:|;|>|<|\\?|,|\\.|");
     if (regex_match(input, pattern))
         return true;
     else
@@ -41,25 +41,21 @@ int main()
     getline(cin, input, ';');
 
     string currentlyReading = "";
-
-    vector<string> special_chars;
-    vector<string> identifiers;
-    vector<string> keywords;
+    vector<string> special_chars, identifiers, keywords;
 
     int spaceCounter = 0;
 
     for (int i = 0; i < input.length(); i++)
     {
-        if (input[i] == ' ' || input[i] == '\n' || input[i] == '\t')
+        if (is_special_chars(string(1, input[i])))
+            special_chars.push_back(string(1, input[i]));
+        else if (input[i] == ' ' || input[i] == '\n' || input[i] == '\t')
         {
             spaceCounter++;
 
             // if value is empty then skip
             if (currentlyReading == "")
                 continue;
-
-            if (is_special_chars(currentlyReading))
-                special_chars.push_back(currentlyReading);
 
             if (is_keyword(currentlyReading))
                 keywords.push_back(currentlyReading);

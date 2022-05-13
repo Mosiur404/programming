@@ -1,7 +1,9 @@
 {
-    "files.associations": {
-        "iostream": "cpp",
-        "regex": "cpp"
-    },
-    "python.pythonPath": "C:\\Users\\hp\\AppData\\Local\\Programs\\Python\\Python39\\python.exe"
+  "files.associations": {
+    "iostream": "cpp",
+    "regex": "cpp",
+    "ostream": "cpp",
+    "random": "cpp"
+  },
+  "python.pythonPath": "C:\\Users\\hp\\AppData\\Local\\Programs\\Python\\Python39\\python.exe"
 }

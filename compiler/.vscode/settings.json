@@ -5,6 +5,10 @@
     "regex": "cpp",
     "deque": "cpp",
     "string": "cpp",
-    "vector": "cpp"
+    "vector": "cpp",
+    "*.tcc": "cpp",
+    "bitset": "cpp",
+    "istream": "cpp",
+    "random": "cpp"
   }
 }

@@ -1,16 +1,17 @@
 #include <iostream>
 using namespace std;
 
-int main()
-{
-    string str;
-    int counter = 0;
-    getline(cin, str, '.');
-    for (int i = 0; i < str.length(); i++)
-    {
-        if (str[i] == ' ')
-            counter++;
-    }
+int gcd(int m, int n) {
+  if (m == 0) return n;
+  if (n == 0) return m;
 
-    cout << counter;
+  if (m > n) return gcd(m % n, n);
+
+  return gcd(m, n % m);
+}
+
+int main() {
+  int m = 24, n = 18;
+  cout << "GCD: " << gcd(m, n) << endl;
+  cout << "LCM: " << (m * n / gcd(m, n)) << endl;
 }
