@@ -1,0 +1,20 @@
+cmake -G "MinGW Makefiles" -S . -B . -DCMAKE_INSTALL_PREFIX=C:\mingw64\x86_64-w64-mingw32
+mingw32-make all && mingw32-make install
+
+// header goes to include 
+// library goes to in lib
+// bin goes to system32
+
+//class1
+Br Line
+Arc
+Circle
+2d bar
+3d bar
+
+class 2
+DDA
+Elipse
+Drawpolly (triangle)
+Fillelipse
+FillPolly
