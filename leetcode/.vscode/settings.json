@@ -45,7 +45,10 @@
     "numbers": "cpp",
     "streambuf": "cpp",
     "typeinfo": "cpp",
-    "stack": "cpp"
+    "stack": "cpp",
+    "optional": "cpp",
+    "fstream": "cpp",
+    "sstream": "cpp"
   },
   "python.pythonPath": "C:\\Users\\hp\\AppData\\Local\\Programs\\Python\\Python39\\python.exe"
 }

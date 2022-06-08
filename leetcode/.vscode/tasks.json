@@ -2,7 +2,7 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "C++ build and run",
+      "label": "C++ build",
       "command": "g++",
       "type": "shell",
       "args": [
@@ -10,7 +10,7 @@
         "\"${file}\"",
         "-o",
         "\"${fileDirname}\\a.exe\"",
-        "-std=c++11"
+        "-std=c++17"
       ],
       "options": {
         "cwd": "${workspaceFolder}"

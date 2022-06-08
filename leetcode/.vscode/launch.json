@@ -13,7 +13,7 @@
       "stopAtEntry": false,
       "cwd": "${workspaceFolder}",
       "environment": [],
-      "preLaunchTask": "C++ build and run",
+      "preLaunchTask": "C++ build",
       "console": "integratedTerminal"
     },
     {
@@ -36,7 +36,7 @@
         }
       ],
 
-      "preLaunchTask": "C++ build and run"
+      "preLaunchTask": "C++ build"
     }
   ]
 }
