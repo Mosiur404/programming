@@ -158,11 +158,14 @@ class Solution {
     cout << "Total Customer Wait: " << totalCustomerWait << endl;
   }
   // extra
-  Solution() {
-    cout << "Enter Customer Size: ";
-    cin >> this->numeberOfCustomers;
-    cout << endl;
-    // this->numeberOfCustomers = 3;
+  Solution(int numOfCustomers = 0) {
+    if (!numOfCustomers) {
+      cout << "Enter Customer Size: ";
+      cin >> this->numeberOfCustomers;
+      cout << endl;
+    } else
+      this->numeberOfCustomers = numOfCustomers;
+    // init array
     this->customers = new Customer[this->numeberOfCustomers];
   }
 
@@ -170,9 +173,9 @@ class Solution {
 };
 
 int main(int argc, char const *argv[]) {
-  Solution simulator;
+  Solution *simulator = new Solution();
 
-  simulator.init();
+  simulator->init();
 
   return 0;
 }

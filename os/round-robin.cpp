@@ -14,8 +14,8 @@ struct Process {
   int responseTime;
 };
 
-class Schduler {
- private:
+class Scheduler {
+private:
   queue<Process> allProcess;
 
   queue<Process> readyQueue;
@@ -25,8 +25,8 @@ class Schduler {
   int timeQuantum;
   int duration;
 
- public:
-  Schduler& enqueue(Process prc) {
+public:
+  Scheduler &enqueue(Process prc) {
     this->allProcess.push(prc);
     return *this;
   }
@@ -70,7 +70,7 @@ class Schduler {
 
   void moveRunningToReady() {
     if (this->runningQueue.empty()) return;
-    Process& prc = this->runningQueue.front();
+    Process &prc = this->runningQueue.front();
 
     // if process has burst time remaining then push it back to ready
     if (this->isProcessingDone(prc)) {
@@ -85,7 +85,7 @@ class Schduler {
   void moveReadyToRunning() {
     if (this->readyQueue.empty()) return;
 
-    Process& prc = this->readyQueue.front();
+    Process &prc = this->readyQueue.front();
 
     this->duration += this->min(prc.burstTimeRemaining, this->timeQuantum);
     prc.burstTimeRemaining -= this->timeQuantum;
@@ -106,15 +106,15 @@ class Schduler {
 
   bool isProcessingDone(Process prc) { return prc.burstTimeRemaining <= 0; }
 
-  Schduler(int tq = 0) {
+  Scheduler(int tq = 0) {
     this->timeQuantum = tq;
     this->duration = 0;
   }
-  ~Schduler() {}
+  ~Scheduler() {}
 };
 
-int main(int argc, char const* argv[]) {
-  Schduler roundRobin(2);
+int main(int argc, char const *argv[]) {
+  Scheduler roundRobin(2);
 
   roundRobin.enqueue({1, 0, 5}).enqueue({2, 1, 4});
   roundRobin.enqueue({3, 2, 2}).enqueue({4, 4, 1});
