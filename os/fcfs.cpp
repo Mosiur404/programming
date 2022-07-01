@@ -3,11 +3,7 @@
 using namespace std;
 
 struct Process {
-  int index;
-  int arrivalTime;
-  int burstTime;
-  int startTime;
-  int completionTime;
+  int index, arrivalTime, burstTime, startTime, completionTime;
   int turnArroundTime() { return this->completionTime - this->arrivalTime; };
   int waitingTime() { return this->startTime - this->arrivalTime; };
 };
@@ -24,23 +20,20 @@ public:
     return this;
   }
   void init() {
-    int prevCompletionTime = 0;
+    int prevCT = 0;
     while (!processQueue.empty()) {
       Process *prc = &processQueue.front();
 
-      prc->startTime = prevCompletionTime > prc->arrivalTime
-                           ? prevCompletionTime
-                           : prc->arrivalTime;
+      prc->startTime = prevCT > prc->arrivalTime ? prevCT : prc->arrivalTime;
       prc->completionTime = prc->startTime + prc->burstTime;
 
       // extra
       this->totalCT += prc->completionTime;
       this->totalTAT += prc->turnArroundTime();
       this->totalWT += prc->waitingTime();
-      this->totalIdle += prevCompletionTime < prc->arrivalTime
-                             ? prc->arrivalTime - prevCompletionTime
-                             : 0;
-      prevCompletionTime = prc->completionTime;
+      this->totalIdle +=
+          prevCT < prc->arrivalTime ? prc->arrivalTime - prevCT : 0;
+      prevCT = prc->completionTime;
 
       processQueue.pop();
       terminatedQueue.push(*prc);
@@ -81,13 +74,9 @@ public:
 
 int main(int argc, char const *argv[]) {
   Scheduler *fcfs = new Scheduler();
-
   fcfs->enqueue({1, 0, 2})->enqueue({2, 1, 2});
   fcfs->enqueue({3, 5, 3})->enqueue({4, 6, 4});
-
   fcfs->init();
-
   fcfs->print();
-
   return 0;
 }

@@ -2,32 +2,22 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "C++ build",
-      "command": "g++",
+      "label": "C++ Build",
+      "command": "g++ -g -Wall -fdiagnostics-color=always -std=c++11 src/${fileBasename} -o build/${fileBasenameNoExtension}.exe src/glad.c -lglew32 -lopengl32 -lfreeglut -lglu32 -lglfw3 -lopengl32 -luser32 -lGdi32 -lShell32",
       "type": "shell",
-      "args": [
-        "-g",
-        "\"${file}\"",
-        "-o",
-        "\"${fileDirname}\\a.exe\"",
-        "-std=c++17"
-      ],
-      "options": {
-        "cwd": "${workspaceFolder}"
-      },
       "problemMatcher": ["$msCompile", "$gcc"],
       "group": {
         "kind": "build",
         "isDefault": true
       },
+
       "presentation": {
         "echo": false,
         "reveal": "always",
         "focus": true,
         "panel": "shared",
         "showReuseMessage": false,
-        "clear": true,
-        "close": true
+        "clear": true
       }
     }
   ]

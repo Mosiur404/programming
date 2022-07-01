@@ -16,7 +16,7 @@ struct Customer {
 };
 
 class Solution {
- private:
+private:
   int totalInterArrivalTime = 0;
   int totalArrivalTime = 0;
   int totalServiceTime = 0;
@@ -27,10 +27,10 @@ class Solution {
   int numeberOfCustomers;
   Customer *customers;
 
- public:
+public:
   void startSimulating() {
     int prevArrivalTime = 0;
-    int prevTimeOfServiceEnds = 0;
+    int prevTSE = 0;
     for (int i = 0; i < this->numeberOfCustomers; i++) {
       Customer *current = &this->customers[i];
       current->id = i + 1;
@@ -52,21 +52,19 @@ class Solution {
           this->generateServiceTime(current->randomNumberForServiceTime);
       // Time Service begins (check which one is greater, previous one end or
       // current arrival)
-      current->timeServiceBegins =
-          this->max(prevTimeOfServiceEnds, current->arrivalTime);
+      current->timeServiceBegins = this->max(prevTSE, current->arrivalTime);
       // Waiting time
-      current->waitingTime = prevTimeOfServiceEnds > current->arrivalTime
-                                 ? prevTimeOfServiceEnds - current->arrivalTime
-                                 : 0;
+      current->waitingTime =
+          (prevTSE > current->arrivalTime ? prevTSE - current->arrivalTime : 0);
       // Time service end
       current->timeServiceEnds =
           current->timeServiceBegins + current->serviceTime;
       // Time Spent in system
       current->timeSpentInSystem = current->arrivalTime + current->serviceTime;
       // Idle Time
-      current->idleTimeForServer = prevTimeOfServiceEnds > current->arrivalTime
-                                       ? 0
-                                       : current->arrivalTime - prevArrivalTime;
+      current->idleTimeForServer = (prevTSE < current->arrivalTime
+                                        ? current->arrivalTime - prevArrivalTime
+                                        : 0);
       // Total
       this->totalInterArrivalTime += current->iAt;
       this->totalArrivalTime += current->arrivalTime;
@@ -77,7 +75,7 @@ class Solution {
       if (current->waitingTime) this->totalCustomerWait++;
       // extra
       prevArrivalTime = current->arrivalTime;
-      prevTimeOfServiceEnds = current->timeServiceEnds;
+      prevTSE = current->timeServiceEnds;
     }
   }
   int max(int a, int b) { return a > b ? a : b; }

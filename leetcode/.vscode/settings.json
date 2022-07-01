@@ -48,7 +48,9 @@
     "stack": "cpp",
     "optional": "cpp",
     "fstream": "cpp",
-    "sstream": "cpp"
+    "sstream": "cpp",
+    "bitset": "cpp",
+    "unordered_set": "cpp"
   },
   "python.pythonPath": "C:\\Users\\hp\\AppData\\Local\\Programs\\Python\\Python39\\python.exe"
 }

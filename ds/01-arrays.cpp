@@ -2,15 +2,15 @@
 using namespace std;
 
 class MyArray {
- private:
-  int* MyArr;
+private:
+  int *MyArr;
   int numberOfItems = 0;
 
- public:
+public:
   int location, item;
   void Print(string text) { cout << '\n' << text << '\n'; }
 
-  MyArray& push() {
+  MyArray &push() {
     this->MyArr[this->numberOfItems] = this->item;
     numberOfItems++;
 
@@ -20,7 +20,7 @@ class MyArray {
     return *this;
   }
 
-  MyArray& pop() {
+  MyArray &pop() {
     numberOfItems--;
 
     this->Print("Pop " + to_string(this->MyArr[numberOfItems]) +
@@ -29,7 +29,7 @@ class MyArray {
     return *this;
   }
 
-  MyArray& insert() {
+  MyArray &insert() {
     if (this->isLocationInValid(this->location)) return *this;
     // 0 1 2
     for (int i = this->numberOfItems; i >= this->location; i--)
@@ -45,7 +45,7 @@ class MyArray {
     return *this;
   }
 
-  MyArray& replace(void) {
+  MyArray &replace(void) {
     if (this->isLocationInValid(this->location)) return *this;
 
     this->MyArr[location - 1] = item;
@@ -56,7 +56,7 @@ class MyArray {
     return *this;
   }
 
-  MyArray& deleteItem(void) {
+  MyArray &deleteItem(void) {
     if (this->isLocationInValid(this->location)) return *this;
 
     for (int i = this->location; i < this->numberOfItems; i++)
@@ -71,12 +71,12 @@ class MyArray {
   }
 
   // start extra
-  MyArray& setItem() {
+  MyArray &setItem() {
     cout << "Insert Item: ";
     cin >> this->item;
     return *this;
   }
-  MyArray& setLocation() {
+  MyArray &setLocation() {
     cout << "Insert Location: ";
     cin >> this->location;
     return *this;
@@ -90,15 +90,30 @@ class MyArray {
   void printArray(void) {
     cout << "MyArr is: ";
     if (numberOfItems == 0) cout << "Empty";
-    for (int i = 0; i < this->numberOfItems; i++) cout << this->MyArr[i] << " ";
+    for (int i = 0; i < this->numberOfItems; i++)
+      cout << this->MyArr[i] << " ";
   }
   // end extra
+  // copy constructor (detail here: https://youtu.be/BvR1Pgzzr38)
+  MyArray(const MyArray &otherClass) {
+    this->numberOfItems = otherClass.numberOfItems;
+    this->MyArr = new int[this->numberOfItems];
+    memcpy(this->MyArr, otherClass.MyArr,
+           sizeof(int) * otherClass.numberOfItems);
+  }
+  // move constructor (detail here: https://youtu.be/ehMg6zvXuMY)
+  MyArray(MyArray &&otherClass) noexcept {
+    this->numberOfItems = otherClass.numberOfItems;
+    this->MyArr = otherClass.MyArr;
 
+    otherClass.numberOfItems = 0;
+    otherClass.MyArr = nullptr;
+  }
   MyArray(int n = 100) { MyArr = new int[n]; }
   ~MyArray() {}
 };
 
-int main(int argc, char const* argv[]) {
+int main(int argc, char const *argv[]) {
   MyArray arr;
   int command;
 
@@ -120,32 +135,32 @@ int main(int argc, char const* argv[]) {
     };
 
     switch (command) {
-      case 1:
-        arr.setItem().push();
-        break;
+    case 1:
+      arr.setItem().push();
+      break;
 
-      case 2:
-        arr.pop();
-        break;
+    case 2:
+      arr.pop();
+      break;
 
-      case 3:
-        arr.setItem().setLocation().insert();
-        break;
+    case 3:
+      arr.setItem().setLocation().insert();
+      break;
 
-      case 4:
-        arr.setItem().setLocation().replace();
-        break;
+    case 4:
+      arr.setItem().setLocation().replace();
+      break;
 
-      case 5:
-        arr.setLocation().deleteItem();
-        break;
+    case 5:
+      arr.setLocation().deleteItem();
+      break;
 
-      case 6:
-        arr.printArray();
-        break;
+    case 6:
+      arr.printArray();
+      break;
 
-      default:
-        break;
+    default:
+      break;
     }
   }
 

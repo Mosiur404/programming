@@ -5,22 +5,23 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "C++ Launch",
+      "name": "OpenGL Launch",
       "type": "cppvsdbg",
       "request": "launch",
-      "program": "${workspaceFolder}/a.exe",
+      "program": "${workspaceFolder}/build/${fileBasenameNoExtension}.exe",
       "args": [],
       "stopAtEntry": false,
       "cwd": "${workspaceFolder}",
+      "symbolSearchPath": "C:\\Symbols;C:\\SymbolDir2",
       "environment": [],
-      "preLaunchTask": "C++ build",
-      "console": "integratedTerminal"
+      "console": "integratedTerminal",
+      "preLaunchTask": "C++ Build"
     },
     {
-      "name": "C++ Debug",
+      "name": "OpenGL Debug",
       "type": "cppdbg",
       "request": "launch",
-      "program": "${workspaceFolder}/a.exe",
+      "program": "${workspaceFolder}/build/${fileBasenameNoExtension}.exe",
       "args": [],
       "stopAtEntry": false,
       "cwd": "${fileDirname}",
@@ -35,8 +36,7 @@
           "ignoreFailures": true
         }
       ],
-
-      "preLaunchTask": "C++ build"
+      "preLaunchTask": "C++ Build"
     }
   ]
 }

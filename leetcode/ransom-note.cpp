@@ -4,7 +4,7 @@
 using namespace std;
 
 class Solution {
- public:
+public:
   bool canConstruct(string ransomNote, string magazine) {
     int frequency[26] = {0};
     int charAscii = 97;
@@ -46,7 +46,7 @@ class Solution {
 //   }
 // };
 
-int main(int argc, char const* argv[]) {
+int main(int argc, char const *argv[]) {
   Solution leet;
   string ransomNote = "aab", magazine = "aba";
   bool result = leet.canConstruct(ransomNote, magazine);

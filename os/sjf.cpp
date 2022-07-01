@@ -4,11 +4,7 @@
 using namespace std;
 
 struct Process {
-  int index;
-  int arrivalTime;
-  int burstTime;
-  int startTime;
-  int completionTime;
+  int index, arrivalTime, burstTime, startTime, completionTime;
   int turnArroundTime() { return this->completionTime - this->arrivalTime; };
   int waitingTime() { return this->startTime - this->arrivalTime; };
 };
@@ -64,8 +60,8 @@ public:
       if (!readyQueue.empty()) readyQueue.clear();
 
       this->duration++;
-      return this;
     }
+    return this;
   }
   bool compareBurstTime(Process i1, Process i2) {
     return (i1.burstTime < i2.burstTime);
@@ -93,7 +89,6 @@ public:
     cout << "Average Waiting Time: " << (float)this->totalWT / this->counter
          << endl;
   }
-
   Scheduler() {
     this->totalCT = 0, this->totalTAT = 0, this->totalWT = 0, this->counter = 0;
   }
@@ -102,13 +97,8 @@ public:
 
 int main(int argc, char const *argv[]) {
   Scheduler *fcfs = new Scheduler();
-
-  //   fcfs->enqueue({1, 0, 7})->enqueue({2, 2, 4});
-  //   fcfs->enqueue({3, 4, 1})->enqueue({4, 5, 4});
   fcfs->enqueue({1, 1, 3})->enqueue({2, 1, 2});
   fcfs->enqueue({3, 2, 4})->enqueue({4, 4, 4});
-
   fcfs->init()->print();
-
   return 0;
 }
