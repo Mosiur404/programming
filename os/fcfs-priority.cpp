@@ -4,7 +4,7 @@
 using namespace std;
 
 struct Process {
-  int index, arrivalTime, burstTime, startTime, completionTime;
+  int index, arrivalTime, burstTime, priority, startTime, completionTime;
   int turnArroundTime() { return this->completionTime - this->arrivalTime; };
   int waitingTime() { return this->startTime - this->arrivalTime; };
 };
@@ -34,7 +34,7 @@ public:
       if (!readyQueue.empty())
         sort(this->readyQueue.begin(), this->readyQueue.end(),
              [this](Process a, Process b) {
-               return this->compareBurstTime(a, b);
+               return this->comparePriority(a, b);
              });
       // process sorted array
       for (int i = 0; i < readyQueue.size(); i++) {
@@ -63,8 +63,8 @@ public:
     }
     return this;
   }
-  bool compareBurstTime(Process i1, Process i2) {
-    return (i1.burstTime < i2.burstTime);
+  bool comparePriority(Process i1, Process i2) {
+    return (i1.priority < i2.priority);
   }
   // extra
   void print() {
@@ -96,9 +96,10 @@ public:
 };
 
 int main(int argc, char const *argv[]) {
-  Scheduler *sjf = new Scheduler();
-  sjf->enqueue({1, 1, 3})->enqueue({2, 1, 2});
-  sjf->enqueue({3, 2, 4})->enqueue({4, 4, 4});
-  sjf->init()->print();
+  Scheduler *ps = new Scheduler();
+  ps->enqueue({1, 0, 10, 3})->enqueue({2, 0, 1, 1});
+  ps->enqueue({3, 0, 2, 4})->enqueue({4, 0, 1, 5});
+  ps->enqueue({5, 0, 5, 2});
+  ps->init()->print();
   return 0;
 }

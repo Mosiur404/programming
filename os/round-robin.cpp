@@ -1,133 +1,100 @@
+#include <algorithm>
 #include <iostream>
 #include <queue>
-#define log(x) std::cout << x << std::endl;
+
 using namespace std;
 
 struct Process {
-  int index;
-  int arrivalTime;
-  int burstTime;
-  int burstTimeRemaining = this->burstTime;
-  int completionTime;
+  int index, arrivalTime, burstTime, startTime, completionTime;
   int turnArroundTime() { return this->completionTime - this->arrivalTime; };
-  int waitingTime() { return this->completionTime - this->burstTime; };
-  int responseTime;
+  int waitingTime() { return this->startTime - this->arrivalTime; };
 };
 
 class Scheduler {
 private:
-  queue<Process> allProcess;
-
+  queue<Process> processQueue;
   queue<Process> readyQueue;
-  queue<Process> runningQueue;
-  queue<Process> history;
-
-  int timeQuantum;
-  int duration;
+  queue<Process> terminatedQueue;
+  unsigned int timeQuantum;
+  unsigned int totalCT, totalTAT, totalWT, totalIdle, counter, duration;
 
 public:
-  Scheduler &enqueue(Process prc) {
-    this->allProcess.push(prc);
-    return *this;
+  Scheduler *enqueue(Process prc) {
+    this->processQueue.push(prc);
+    return this;
   }
-
-  // extra
-  void print(queue<Process> prc) {
-    while (!prc.empty()) {
-      cout << "P" << prc.front().index << ' ';
-      prc.pop();
-    }
-
-    cout << endl;
-  }
-  void printReadyQueue() { this->print(this->readyQueue); }
-  void printRunningQueue() { this->print(this->runningQueue); }
-  void printHistory() {
-    while (!this->history.empty()) {
-      int index = this->history.front().index;
-      int completionTime = this->history.front().completionTime;
-      cout << "P" << index << '(' << completionTime << ") ";
-      this->history.pop();
-    }
-
-    cout << endl;
-  }
-  int completionTimeTotal() { return this->duration; }
-  int min(int a, int b) { return a > b ? b : a; }
-  // extra
-
-  void startProcessing() {
-    this->checkReadyQueue();
-    while (!readyQueue.empty()) {
-      // log(this->duration);
-
-      this->moveReadyToRunning();
-      this->checkReadyQueue();
-
-      this->moveRunningToReady();
-    }
-  }
-
-  void moveRunningToReady() {
-    if (this->runningQueue.empty()) return;
-    Process &prc = this->runningQueue.front();
-
-    // if process has burst time remaining then push it back to ready
-    if (this->isProcessingDone(prc)) {
-      prc.completionTime = this->duration;
-    }
-
-    if (!this->isProcessingDone(prc)) readyQueue.push(prc);
-
-    this->runningQueue.pop();
-  }
-
-  void moveReadyToRunning() {
-    if (this->readyQueue.empty()) return;
-
-    Process &prc = this->readyQueue.front();
-
-    this->duration += this->min(prc.burstTimeRemaining, this->timeQuantum);
-    prc.burstTimeRemaining -= this->timeQuantum;
-    this->runningQueue.push(prc);
-    this->history.push(prc);
-    log(prc.completionTime);
-
-    this->readyQueue.pop();
-  }
-
-  void checkReadyQueue() {
-    if (allProcess.empty()) return;
-    while (allProcess.front().arrivalTime <= this->duration) {
-      readyQueue.push(allProcess.front());
-      allProcess.pop();
-    }
-  }
-
-  bool isProcessingDone(Process prc) { return prc.burstTimeRemaining <= 0; }
-
-  Scheduler(int tq = 0) {
-    this->timeQuantum = tq;
+  Scheduler *init() {
+    int prevCompletionTime = 0;
     this->duration = 0;
+    while (!processQueue.empty() || !readyQueue.empty()) {
+      // cout << "duration " << this->duration << ' ';
+      this->checkProcessQueue();
+      if (!readyQueue.empty()) {
+        Process *prc = &readyQueue.front();
+
+        this->duration += this->min(this->timeQuantum, prc->burstTime);
+        readyQueue.pop();
+        prc->burstTime = prc->burstTime - this->timeQuantum;
+
+        if (prc->burstTime <= 0)
+          this->terminatedQueue.push(*prc);
+        else {
+          this->checkProcessQueue();
+          this->readyQueue.push(*prc);
+        }
+
+        cout << 'p' << prc->index << ' ';
+      }
+    }
+    return this;
+  }
+
+  Scheduler *checkProcessQueue() {
+    while (!processQueue.empty() &&
+           processQueue.front().arrivalTime <= this->duration) {
+      Process *prc = &processQueue.front();
+      processQueue.pop();
+      this->readyQueue.push(*prc);
+    }
+    return this;
+  }
+  // extra
+  int min(int a, int b) { return a > b ? b : a; }
+  void print() {
+    cout << "ID\tArrival\tBurst\tStart\tCompletion\tTAT\tWaiting" << endl;
+    while (!this->terminatedQueue.empty()) {
+      Process *prc = &terminatedQueue.front();
+
+      cout << "P" << prc->index << '\t' << prc->arrivalTime << '\t'
+           << prc->burstTime << '\t' << prc->startTime << '\t'
+           << prc->completionTime << "\t\t" << prc->turnArroundTime() << '\t'
+           << prc->waitingTime();
+      terminatedQueue.pop();
+      cout << endl;
+    }
+    cout << "Total Completion Time: " << this->totalCT << endl;
+    cout << "Total Turn Arround Time: " << this->totalTAT << endl;
+    cout << "Total Waiting Time: " << this->totalWT << endl;
+    cout << "Average Completion Time: " << (float)this->totalCT / this->counter
+         << endl;
+    cout << "Average Turn Arround Time: "
+         << (float)this->totalTAT / this->counter << endl;
+    cout << "Average Waiting Time: " << (float)this->totalWT / this->counter
+         << endl;
+  }
+  Scheduler(int tq = 2) {
+    this->timeQuantum = tq;
+    this->totalCT = 0, this->totalTAT = 0, this->totalWT = 0, this->counter = 0;
   }
   ~Scheduler() {}
 };
 
 int main(int argc, char const *argv[]) {
-  Scheduler roundRobin(2);
-
-  roundRobin.enqueue({1, 0, 5}).enqueue({2, 1, 4});
-  roundRobin.enqueue({3, 2, 2}).enqueue({4, 4, 1});
-
-  roundRobin.startProcessing();
-  cout << "Ready: ";
-  roundRobin.printReadyQueue();
-  cout << "Running: ";
-  roundRobin.printRunningQueue();
-  cout << "History: ";
-  roundRobin.printHistory();
-
-  cout << "Total time: ";
-  log(roundRobin.completionTimeTotal());
+  Scheduler *roundRobin = new Scheduler(4);
+  roundRobin->enqueue({1, 0, 8})->enqueue({2, 1, 6});
+  roundRobin->enqueue({3, 3, 3})->enqueue({4, 5, 2});
+  roundRobin->enqueue({5, 6, 4});
+  roundRobin->init();
+  // roundRobin->print();
   return 0;
 }
