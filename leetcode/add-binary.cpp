@@ -5,7 +5,7 @@
 using namespace std;
 
 class Solution {
- public:
+public:
   string addBinary(string a, string b) {
     int i = a.length() - 1;
     int j = b.length() - 1;
@@ -28,7 +28,7 @@ class Solution {
   }
 };
 
-int main(int argc, char const* argv[]) {
+int main(int argc, char const *argv[]) {
   Solution leet;
   string a = "100", b = "110010";
   string result = leet.addBinary(a, b);
