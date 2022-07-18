@@ -3,7 +3,9 @@
 #include <queue>
 #define log(x) std::cout << x << std::endl;
 using namespace std;
-
+// complete binary tree mush have all level full except last and it should have
+// last level filled from left side
+// array binary: left = 2 * i, right = 2 * i+1
 struct Node {
   int val;
   Node *left, *right;

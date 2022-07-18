@@ -10,7 +10,7 @@
         "\"${file}\"",
         "-o",
         "\"${fileDirname}\\a.exe\"",
-        "-std=c++17"
+        "-std=c++2a"
       ],
       "options": {
         "cwd": "${workspaceFolder}"

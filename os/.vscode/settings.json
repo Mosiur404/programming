@@ -1,5 +1,10 @@
 {
   "files.associations": {
-    "fcfs-priority,cpp": "cpp"
+    "fcfs-priority,cpp": "cpp",
+    "queue": "cpp",
+    "new": "cpp",
+    "functional": "cpp",
+    "ostream": "cpp",
+    "iostream": "cpp"
   }
 }

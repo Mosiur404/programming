@@ -3,11 +3,6 @@
 #define log(x) std::cout << x << std::endl;
 using namespace std;
 
-class Infix {
-  Infix() {}
-  ~Infix() {}
-};
-
 string reverseString(string &text, int n) {
   stack<char> newStack = {};
 
