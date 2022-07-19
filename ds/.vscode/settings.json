@@ -2,7 +2,8 @@
   "files.associations": {
     "iostream": "cpp",
     "ostream": "cpp",
-    "new": "cpp"
+    "new": "cpp",
+    "vector": "cpp"
   }
   // "C_Cpp.default.includePath": ["${fileDirname}\\include"]
 }
